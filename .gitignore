@@ -1,0 +1,5 @@
+src/main/webapp/rs/ext-5.0.0/*
+target
+*.DS_STORE
+*.iml
+.idea
