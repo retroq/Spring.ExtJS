@@ -6,7 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-Ext.require(["Ext.Msg"]);
+Ext.require(["Ext.Msg",
+    "Ext.data.proxy.Rest",
+    "Ext.grid.Panel",
+    "Ext.grid.plugin.CellEditing"]);
+
 var store;
 Ext.onReady(function(){
    Ext.Msg.alert("Hello", "Anton");
@@ -42,7 +46,30 @@ Ext.onReady(function(){
             }
         }
     });
+
     store = new POJOStore();
     store.load();
+    Ext.create("Ext.grid.Panel", {
+        store: store,
+        title: "POJOs",
+        width:500,
+        columns:[
+            {xtype : "rownumberer"},
+            {text:"Bean Name", dataIndex:"beanName", editor: {
+                xtype: 'textfield',
+                allowBlank: false
+            }},
+            {text:"Ids", dataIndex:"ids"},
+            {text:"Nested bean name", dataIndex:"nestedPOJOBean", renderer:function(val){return val.name}}
+        ],
+        selType: 'cellmodel',
+        plugins: {
+            ptype: 'cellediting',
+            clicksToEdit: 1
+        },
+        renderTo:Ext.getBody()
+    });
+
+    //store.load();
     POJOBean.load("asd");
 });
